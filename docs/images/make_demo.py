@@ -7,7 +7,6 @@ packages as the skill (see skills/slopscope/requirements.txt); CHROMIUM_PATH wor
 """
 import html
 import re
-import json
 import pathlib
 import sys
 import tempfile
