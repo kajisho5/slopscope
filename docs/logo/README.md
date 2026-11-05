@@ -4,12 +4,15 @@
 
 | ファイル | 使う場所 |
 |---|---|
-| `logo.svg` / `logo-dark.svg` | マークだけ（アイコン、小さい場所） |
+| `app-icon.svg` | 角丸の四角に入れたアイコン（README の一番上、明るい背景でも暗い背景でも使える） |
+| `logo.svg` / `logo-dark.svg` | マークだけ（小さい場所） |
 | `wordmark.svg` / `wordmark-dark.svg` | 名前だけ |
-| `lockup.svg` / `lockup-dark.svg` | マークと名前を並べたもの（README の一番上） |
+| `lockup.svg` / `lockup-dark.svg` | マークと名前を横に並べたもの |
 | `social-preview.png` | リンクを共有したときに出る画像（1280×640） |
 
 `-dark` は暗い背景用です。
+
+README の画面の画像 `docs/images/demo.png` は、`python3 docs/images/make_demo.py` で撮り直せます（架空の見本ページを実際に測った結果）。共有用の画像は `docs/logo/social-preview.html` をブラウザで 1280×640 で撮ったものです。
 
 ## 形の意味
 

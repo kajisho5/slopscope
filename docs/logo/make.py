@@ -81,3 +81,9 @@ if ASSETS:
         (ASSETS / f'wordmark{suffix}.svg').write_text(svg(f'0 0 {width:.0f} 60', body, 'slopscope'))
         lock = f'{reticle(ink, acc)}<g transform="translate(70 4)">{body}</g>'
         (ASSETS / f'lockup{suffix}.svg').write_text(svg(f'0 0 {70 + width:.0f} 64', lock, 'slopscope'))
+
+# App icon: the mark in light ink on a dark rounded square, readable on any page color.
+if ASSETS:
+    icon = ('<rect width="64" height="64" rx="14" fill="#18181B"/>'
+            f'<g transform="translate(9 9) scale(0.72)">{reticle(INK_D, ACC)}</g>')
+    (ASSETS / 'app-icon.svg').write_text(svg('0 0 64 64', icon, 'slopscope app icon'))
