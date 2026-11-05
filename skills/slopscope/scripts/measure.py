@@ -154,12 +154,21 @@ INPUTS_JS = r'''()=>{
 TARGETS_JS = r'''()=>{
   const sel=''' + SELECTOR_JS + r''';
   const q='a[href],button,input:not([type=hidden]),select,textarea,summary,[role=button],[role=link],[role=checkbox],[role=switch],[role=tab],[tabindex]:not([tabindex="-1"])';
-  const out=[];
+  const all=[];
   for(const e of document.querySelectorAll(q)){
     const r=e.getBoundingClientRect(); if(!r.width||!r.height)continue;
-    // WCAG 2.5.8 exempts links inside a sentence
+    // WCAG 2.5.8 inline exception: links inside a sentence
     if(e.tagName==='A'){const p=e.parentElement;if(p&&/^(P|LI|SPAN|TD|DD)$/.test(p.tagName)&&p.textContent.trim().length>e.textContent.trim().length+10)continue}
-    if(r.width<24||r.height<24)out.push({selector:sel(e),size:[Math.round(r.width),Math.round(r.height)]});
+    all.push({e,r,small:r.width<24||r.height<24,cx:r.left+r.width/2,cy:r.top+r.height/2});
+  }
+  // WCAG 2.5.8 spacing exception: a 24px circle centred on an undersized target
+  // must not intersect another target or another undersized target's circle.
+  const toRect=(x,y,r)=>Math.hypot(Math.max(r.left-x,0,x-r.right),Math.max(r.top-y,0,y-r.bottom));
+  const out=[];
+  for(const a of all){
+    if(!a.small)continue;
+    const crowded=all.some(b=>b!==a&&!b.e.contains(a.e)&&!a.e.contains(b.e)&&(b.small?Math.hypot(a.cx-b.cx,a.cy-b.cy)<24:toRect(a.cx,a.cy,b.r)<12));
+    if(crowded)out.push({selector:sel(a.e),size:[Math.round(a.r.width),Math.round(a.r.height)]});
   }
   return out;
 }'''
@@ -323,7 +332,7 @@ def measure(target, viewports=(375, 1280), themes=('light', 'dark')):
             result('M-04', found['M-04'], 'no sideways scroll at the narrowest viewport'),
             result('M-05', found['M-05'], f'text inputs at {INPUT_MIN_PX}px or more at the narrowest viewport'),
             result('M-06', found['M-06'], 'every interactive element has an accessible name'),
-            result('M-07', found['M-07'], f'{TARGET_MIN}x{TARGET_MIN}px or more (links inside sentences exempt)'),
+            result('M-07', found['M-07'], f'{TARGET_MIN}x{TARGET_MIN}px, or spaced so a {TARGET_MIN}px circle touches no other target (links in sentences exempt)'),
             result('M-08', found['M-08'], 'no infinite animation with prefers-reduced-motion: reduce'),
             {'id': 'M-09', 'status': 'info', 'threshold': 'none (reference)', 'findings': [], 'variety': variety},
         ],

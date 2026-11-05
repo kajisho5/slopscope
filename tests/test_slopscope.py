@@ -67,7 +67,7 @@ class Measure(unittest.TestCase):
         self.assertEqual(by_id['M-04']['findings'][0]['overflow_px'], 185)
         self.assertEqual(by_id['M-05']['findings'][0]['font_px'], 13)
         self.assertEqual([f['role'] for f in by_id['M-06']['findings']], ['button'])
-        self.assertEqual(by_id['M-07']['findings'][0]['size'], [16, 16])
+        self.assertEqual([f['size'] for f in by_id['M-07']['findings']], [[16, 16], [16, 16]])
         self.assertEqual([f['name'] for f in by_id['M-08']['findings']], ['pulse'])
         self.assertGreater(by_id['M-09']['variety']['text_colors']['distinct'], 5)
 

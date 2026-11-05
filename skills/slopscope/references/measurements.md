@@ -12,7 +12,7 @@ and color scheme (light, dark), with animations paused at their start, and write
 | M-04 | Sideways scroll | no horizontal scroll at the narrowest viewport | elements whose right edge passes the viewport and are not inside a scroller | only the first render |
 | M-05 | iOS input zoom | text inputs at 16px or more at the narrowest viewport | computed font-size | Safari itself is not run |
 | M-06 | Accessible names | every interactive element has a name | Chromium accessibility tree | names are present, not necessarily good |
-| M-07 | Target size | 24x24px or more (WCAG 2.5.8 AA); links inside sentences exempt | bounding boxes | the spacing exception is not applied |
+| M-07 | Target size | 24x24px or more, or spaced so a 24px circle on its centre touches no other target (WCAG 2.5.8 AA); links inside sentences exempt | bounding boxes and the spacing test | equivalent-control and essential exceptions are not judged |
 | M-08 | Reduced motion | no infinite animation running with prefers-reduced-motion: reduce | document.getAnimations() | JavaScript-driven motion (requestAnimationFrame, video) is not seen |
 | M-09 | Variety (info) | none; reference only | counts distinct text colors, backgrounds, font sizes and spacing values | a count is not a judgment |
 
