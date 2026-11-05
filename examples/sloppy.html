@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nimbuzz — fictional sloppy landing page</title>
+<!-- Fictional product. Every problem below is deliberate, one per slopscope check. -->
+<style>
+  body{margin:0;font-family:system-ui,sans-serif;background:#fff;color:#111}
+  .hero{padding:48px 24px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff}
+  .hero h1{font-size:40px;margin:0 0 12px}
+  .muted{color:#b8b8b8}                       /* M-01: about 1.9:1 on white */
+  .cta{background:#7c3aed;color:#fff;border:0;padding:12px 20px;border-radius:12px;outline:none} /* M-02: focus removed */
+  .clip{overflow:hidden;width:120px;padding:0}
+  .clip a{display:block;outline:3px solid #2563eb;outline-offset:4px}   /* M-03: ring cut by the parent */
+  .wide{width:520px;background:#fde68a;padding:8px}                    /* M-04: wider than a 375px screen */
+  .small-input{font-size:13px;padding:6px}                              /* M-05: iOS zooms on focus */
+  .tiny{width:16px;height:16px;padding:0;border:1px solid #999;background:#fff}   /* M-07 */
+  .pulse{animation:pulse 1.2s infinite}        /* M-08: ignores reduced motion */
+  @keyframes pulse{50%{opacity:.4}}
+  .c1{color:#333}.c2{color:#444}.c3{color:#555}.c4{color:#222}.c5{color:#3a3a3a}
+</style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Supercharge your workflow ✨🚀</h1>
+    <p>The next-gen, AI-powered, revolutionary platform!!!</p>
+    <button class="cta pulse" type="button">Get started now!</button>
+  </section>
+  <main style="padding:24px">
+    <p class="muted">Trusted by 10,000+ teams worldwide.</p>
+    <div class="clip"><a href="#pricing">Pricing</a></div>
+    <div class="wide">This promo strip is 520px wide.</div>
+    <p><input class="small-input" type="email" placeholder="you@example.invalid" aria-label="Email"></p>
+    <p><button class="tiny" type="button"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9" stroke="#111"/></svg></button></p>
+    <p class="c1">One</p><p class="c2">Two</p><p class="c3">Three</p><p class="c4">Four</p><p class="c5">Five</p>
+  </main>
+</body>
+</html>
