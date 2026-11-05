@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kumo Tea — fictional page with real-site patterns</title>
+<!--
+  Fictional shop. Patterns real sites use that broke slopscope 0.1.0. None of them is a
+  problem for the user, so each must PASS; only the two planted problems inside the web
+  component (faint text, unnamed button) must be found.
+  - off-screen screen-reader text and a carousel slide outside its track (0.1.0 crashed)
+  - body{overflow-x:hidden} hiding a closed slide-in menu (0.1.0: false M-04 and M-07)
+  - a text field whose focus indicator is the text cursor (WCAG 2.4.7 example)
+  - a 16px checkbox inside a large label (the label is part of the target)
+  - two cards whose links have the same short selector (0.1.0 stopped tabbing early)
+  - a focus ring with a transition (measured at its end state)
+  - no dark mode (measured in light only)
+  - a "visually hidden" heading for screen readers (seen on a live site: read as 1:1 contrast)
+  - a skip link that appears only when focused
+  - small links inside a copyright line (inline in a sentence: exempt from 2.5.8)
+  - text that fades in on load (measured when it has finished, not at its faint start)
+  - a long section with content-visibility:auto (Chromium leaves it blank off screen)
+  - a banner that changes height on a timer (content below moves while it is measured)
+-->
+<style>
+  body{margin:0;font-family:system-ui,sans-serif;overflow-x:hidden;color:#18181b;background:#fff;line-height:1.7}
+  .sr-only{position:absolute;left:-9999px;top:0;width:200px}
+  .drawer{position:fixed;top:0;right:0;width:300px;height:100vh;transform:translateX(100%);visibility:hidden;background:#f4f4f5}
+  .drawer a{font-size:11px}
+  :focus-visible{outline:2px solid #1d4ed8;outline-offset:2px;transition:outline-color .4s,outline-offset .4s}
+  .field{font-size:16px;padding:8px;border:1px solid #71717a;width:100%;box-sizing:border-box}
+  .field:focus{outline:none}
+  .track{display:flex;overflow:hidden}
+  .slide{flex:0 0 100%;padding:16px;box-sizing:border-box}
+  .cards{display:grid;gap:16px;padding:16px}
+  .cards a{display:inline-block;padding:12px 0}
+  nav a{display:inline-block;padding:12px}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .skip{position:absolute;left:-9999px;top:8px;background:#fff;padding:8px}
+  .skip:focus{left:8px}
+  .fade{animation:fade-in 1.5s ease-out both;padding:0 16px}
+  @keyframes fade-in{from{opacity:.15;transform:translateY(8px)}}
+  .rotate{padding:8px 16px;background:#f4f4f5}
+  .rotate.tall{padding:40px 16px}
+  .later{content-visibility:auto;contain-intrinsic-size:auto 600px;margin-top:3000px;padding:0 16px}
+  footer{padding:16px;font-size:13px;line-height:1.4}
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <h1 class="vh">Kumo Tea のお茶</h1>
+  <p class="sr-only">スクリーンリーダー向けの説明</p>
+  <nav><a href="#tea">お茶</a><a href="#shop">お店</a></nav>
+  <div class="drawer" aria-label="メニュー"><a href="#x">閉じたメニュー1</a><a href="#y">閉じたメニュー2</a></div>
+  <main id="main">
+    <div class="rotate" id="rotate">今月のおすすめ</div>
+    <p class="fade">季節のお茶をお届けします</p>
+    <div class="track"><div class="slide">一枚目のスライド</div><div class="slide">二枚目（枠の外）</div></div>
+    <p style="padding:0 16px"><label>お名前 <input class="field" type="text"></label></p>
+    <p style="padding:0 16px"><label><input type="checkbox"> 新しいお茶のお知らせを受け取る</label></p>
+    <div class="cards">
+      <article><div><div><div><div><a href="#a">煎茶を見る</a></div></div></div></div></article>
+      <article><div><div><div><div><a href="#b">ほうじ茶を見る</a></div></div></div></div></article>
+    </div>
+    <kumo-badge></kumo-badge>
+    <section class="later"><h2>お店の案内</h2><p>京都の小さなお茶屋です（架空）。</p></section>
+  </main>
+  <footer><p>© 2026 Kumo Tea（架空の店）すべての権利を保有します <span><a href="#terms">利用規約</a></span>・<span><a href="#privacy">個人情報</a></span></p></footer>
+  <script>
+    setInterval(() => document.getElementById('rotate').classList.toggle('tall'), 400);
+    // Planted problems, inside a shadow root: faint text and a button with no name.
+    customElements.define('kumo-badge', class extends HTMLElement {
+      connectedCallback() {
+        this.attachShadow({mode: 'open'}).innerHTML =
+          '<p style="color:#c4c4c4;padding:0 16px">期間限定</p>' +
+          '<button style="width:44px;height:44px;margin:0 16px"></button>';
+      }
+    });
+  </script>
+</body>
+</html>

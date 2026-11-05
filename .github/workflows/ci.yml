@@ -15,7 +15,7 @@ jobs:
           python-version: '3.12'
       - name: Install Playwright, Pillow and Chromium
         run: |
-          python3 -m pip install -r requirements.txt
+          python3 -m pip install -r skills/slopscope/requirements.txt
           python3 -m playwright install --with-deps chromium
       - name: Run tests (frontmatter, measurements on the examples, compare, snapshot)
         run: python3 -W error::SyntaxWarning -m unittest discover -s tests -v

@@ -19,6 +19,16 @@ def load(path):
     return {c['id']: c for c in data['checks']}
 
 
+def setup_notes(before_path, after_path):
+    """Counts are only comparable when both runs measured the same viewports and themes."""
+    b, a = (json.loads(pathlib.Path(x).read_text()) for x in (before_path, after_path))
+    notes = []
+    for key in ('viewports', 'themes'):
+        if b.get(key) != a.get(key):
+            notes.append(f'{key} differ: before {b.get(key)}, after {a.get(key)}; counts are not directly comparable')
+    return notes
+
+
 def compare(before, after):
     rows = []
     for check_id in sorted(set(before) | set(after)):
@@ -43,6 +53,8 @@ def compare(before, after):
 def compare_shots(before_dir, after_dir):
     rows = []
     for b in sorted(pathlib.Path(before_dir).glob('*.png')):
+        if '-part' in b.stem:
+            continue  # pieces of the full image; the full image is compared
         a = pathlib.Path(after_dir) / b.name
         if not a.exists():
             rows.append((b.name, 'missing after'))
@@ -56,8 +68,9 @@ def compare_shots(before_dir, after_dir):
     return rows
 
 
-def markdown(rows, shots=None):
-    lines = ['| Check | Before | After | Result |', '|---|---|---|---|']
+def markdown(rows, shots=None, notes=()):
+    lines = [f'> {n}' for n in notes] + ([''] if notes else [])
+    lines += ['| Check | Before | After | Result |', '|---|---|---|---|']
     lines += [f'| {r[0]} | {r[1]} ({r[2]}) | {r[3]} ({r[4]}) | {r[5]} |' for r in rows]
     if shots:
         lines += ['', '| Screenshot | Difference |', '|---|---|'] + [f'| {n} | {d} |' for n, d in shots]
@@ -72,7 +85,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     rows = compare(load(args.before), load(args.after))
     shots = compare_shots(args.shots_before, args.shots_after) if args.shots_before and args.shots_after else None
-    text = markdown(rows, shots)
+    text = markdown(rows, shots, setup_notes(args.before, args.after))
     if args.out:
         pathlib.Path(args.out).write_text(text)
     print(text, end='')

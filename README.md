@@ -28,15 +28,21 @@ cp -r slopscope/skills/slopscope ~/.claude/skills/
 
 1 つのプロジェクトだけで使う場合は、そのプロジェクトの `.claude/skills/` にコピーします。
 
-計測に必要なもの（Python 3.11 以上）：
+計測に必要なもの（Python 3.11 以上）。スキルのフォルダの中に `requirements.txt` があります：
 
 ```bash
-python3 -m pip install -r slopscope/requirements.txt
+python3 -m venv .venv
 ```
 
 ```bash
-python3 -m playwright install chromium
+.venv/bin/pip install -r ~/.claude/skills/slopscope/requirements.txt
 ```
+
+```bash
+.venv/bin/python -m playwright install chromium
+```
+
+すでに Chromium が入っている場合は、`CHROMIUM_PATH` にその場所を入れれば、最後の手順は要りません。
 
 ## 使い方
 
@@ -52,10 +58,17 @@ python3 skills/slopscope/scripts/measure.py https://example.invalid/ --out slops
 python3 skills/slopscope/scripts/compare.py before/measure.json after/measure.json
 ```
 
+クッキーの同意画面などがページを隠すときは、閉じるボタンを `--click "ボタンのセレクタ"` で押してから測ります。表示が遅いページには `--wait 3000`（3 秒待つ）を付けます。
+
 ## 確かめていること・いないこと
 
-- `examples/sloppy.html`（問題をわざと入れた架空のページ）で M-01〜M-08 がすべて不合格に、`examples/fixed.html` ですべて合格になることを、GitHub Actions で毎回確かめています。
-- 計測は Chromium だけです。スクリーンリーダー、Safari・Firefox、実機、200% 拡大、最初の表示で見えない状態（開いたメニューなど）は確かめません。報告にも毎回そう書きます。
+- 見本ページ 3 つで、毎回 GitHub Actions で確かめています。
+  - `examples/sloppy.html`（問題をわざと入れた架空のページ）：M-01〜M-08 がすべて不合格になる
+  - `examples/fixed.html`：すべて合格になる
+  - `examples/tricky.html`：実在のサイトでよく使われる作り（画面外の文字、スライドショー、隠れたメニュー、部品の中に閉じた中身など）で、誤った不合格を出さず、わざと入れた 2 つの問題だけを見つける
+- 実在の公開サイト 6 つ（example.com、python.org、W3C WAI、デジタル庁、react.dev、GOV.UK）で、最後まで動くことと、指摘が画面で見ても正しいかを確かめました（2026-11-05）。
+- 計測は Chromium だけです。スクリーンリーダー、Safari・Firefox、実機、200% 拡大、最初の表示で見えない状態（開いたメニューなど）、iframe の中は確かめません。報告にも毎回そう書きます。
+- 人間かどうかを確かめる画面（ボット対策）が出るサイトは測れません。そのときは無理に通らず、報告でそう伝えます。
 - claude.ai のチャット上で動くかは確かめていません。
 
 ## 出典
