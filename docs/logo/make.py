@@ -84,6 +84,6 @@ if ASSETS:
 
 # App icon: the mark in light ink on a dark rounded square, readable on any page color.
 if ASSETS:
-    icon = ('<rect width="64" height="64" rx="14" fill="#18181B"/>'
+    icon = ('<rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.5" fill="#18181B" stroke="#52525B" stroke-width="1.5"/>'
             f'<g transform="translate(9 9) scale(0.72)">{reticle(INK_D, ACC)}</g>')
     (ASSETS / 'app-icon.svg').write_text(svg('0 0 64 64', icon, 'slopscope app icon'))
