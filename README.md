@@ -1,8 +1,29 @@
-# slopscope
+<p align="center"><img src="assets/app-icon.svg" width="128" alt="slopscope app icon"></p>
 
-AI が作ったっぽい「雑さ（slop）」と、数字で測れる使いにくさを、2 段で監査する Agent Skill です。直す前と後も比べます。
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.svg">
+    <img src="assets/wordmark.svg" height="48" alt="slopscope">
+  </picture>
+</p>
 
-*An Agent Skill that audits a web page for AI-looking "slop" (opinion) and measurable usability problems (fact), then compares before and after a fix.*
+<p align="center"><b>AI っぽい雑さと使いにくさを、目と数字で見る Agent Skill</b><br>
+見た目の監査（意見）と Chromium での計測（事実）を分けて報告し、直す前と後も比べます。<br>
+<i>An Agent Skill that audits a web page for AI-looking "slop" (opinion) and measurable usability problems (fact).</i></p>
+
+<p align="center">
+  <a href="#入れ方"><b>入れ方</b></a> ·
+  <a href="#使い方">使い方</a> ·
+  <a href="skills/slopscope/references/measurements.md">計測の中身</a> ·
+  <a href="docs/DESIGN.md">設計書</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/kajisho5/slopscope/actions/workflows/ci.yml"><img alt="tests" src="https://github.com/kajisho5/slopscope/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+</p>
+
+![架空の見本ページ（左）と、slopscope の計測結果（右）。8 項目すべてが不合格になっている](docs/images/demo.png)
 
 ## できること
 
