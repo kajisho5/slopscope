@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/lockup-dark.svg">
+    <img src="assets/lockup.svg" alt="slopscope" width="360">
+  </picture>
+</p>
+
 # slopscope
 
 AI が作ったっぽい「雑さ（slop）」と、数字で測れる使いにくさを、2 段で監査する Agent Skill です。直す前と後も比べます。
